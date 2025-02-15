@@ -12,18 +12,18 @@ CREATE TABLE `items` (
 
 
 INSERT INTO `items` (`id`, `name`, `price`) VALUES
-(1, 'heels 1', 36000),
-(2, 'heels 2', 20$),
-(3, 'heels 3', 50000),
-(4, 'heels 4', 80000),
-(5, 'boot 1', 13000),
-(6, 'boot 2', 3000),
-(7, 'boot 3', 8000),
-(8, 'boot 4', 18000),
-(9, 'flat 1', 1500),
-(10, 'flat 2', 1000),
-(11, 'flat 3', 900),
-(12, 'flat 4', 1200);
+(1, 'heels 1',72),
+(2, 'heels 2', 79),
+(3, 'heels 3', 80),
+(4, 'heels 4', 85),
+(5, 'boot 1', 100),
+(6, 'boot 2', 110),
+(7, 'boot 3', 120),
+(8, 'boot 4', 130),
+(9, 'flat 1', 90),
+(10, 'flat 2', 150),
+(11, 'flat 3', 170),
+(12, 'flat 4', 175);
 
 
 CREATE TABLE `users` (
