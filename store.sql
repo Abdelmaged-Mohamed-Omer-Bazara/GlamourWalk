@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `items` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `price` int NOT NULL,
+  `size` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
