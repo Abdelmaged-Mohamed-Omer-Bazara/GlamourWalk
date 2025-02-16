@@ -1,94 +1,186 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.1
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1:3306
+-- Generation Time: 16 فبراير 2025 الساعة 14:26
+-- إصدار الخادم: 9.1.0
+-- PHP Version: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-CREATE TABLE `items` (
-  `id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `price` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `shop`
+--
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `items`
+--
+
+DROP TABLE IF EXISTS `items`;
+CREATE TABLE IF NOT EXISTS `items` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `price` int NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+
+--
+-- إرجاع أو استيراد بيانات الجدول `items`
+--
 
 INSERT INTO `items` (`id`, `name`, `price`) VALUES
-(1, 'heels 1',72),
-(2, 'heels 2', 79),
-(3, 'heels 3', 80),
-(4, 'heels 4', 85),
+(1, 'heel 1', 72),
+(2, 'heel 2', 99),
+(3, 'heel 3', 80),
+(4, 'heel 4', 85),
 (5, 'boot 1', 100),
 (6, 'boot 2', 110),
 (7, 'boot 3', 120),
 (8, 'boot 4', 130),
-(9, 'flat 1', 90),
-(10, 'flat 2', 150),
-(11, 'flat 3', 170),
-(12, 'flat 4', 175);
+(9, 'Flatshoes 1', 90),
+(10, 'Flatshoes 2', 150),
+(11, 'Flatshoes 3', 170),
+(12, 'Flatshoes 4', 175);
 
+-- --------------------------------------------------------
 
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+--
+-- بنية الجدول `orders`
+--
+
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE IF NOT EXISTS `orders` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `total_price` int NOT NULL,
+  `order_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `payment_method` enum('Card','Cash on Pickup') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `pick_up`
+--
+
+DROP TABLE IF EXISTS `pick_up`;
+CREATE TABLE IF NOT EXISTS `pick_up` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `pick_up_date` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `order_id` (`order_id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
+-- بنية الجدول `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `contact` varchar(255) NOT NULL,
   `city` varchar(255) NOT NULL,
-  `address` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `address` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
+--
+-- إرجاع أو استيراد بيانات الجدول `users`
+--
 
 INSERT INTO `users` (`id`, `name`, `email`, `password`, `contact`, `city`, `address`) VALUES
-();
+(4, 'yugesh verma', 'yugeshverma32@gmail.com', '14e1b600b1fd579f47433b88e8d85291', '6263056779', 'bhilai', '25 commercial complex, nehru nagar,east near vijya bank, bhilai C.G.'),
+(5, 'yugesh', 'yugeshverma@gmail.com', '14e1b600b1fd579f47433b88e8d85291', '9165063741', 'bhilai', 'bhilai'),
+(6, 'aa', 'aa@gmail.com', '7c3d596ed03ab9116c547b0eb678b247', 'aaa', 'aa', 'aaaa'),
+(7, 'aa', 'aaaa@gmail.com', '7c3d596ed03ab9116c547b0eb678b247', 'aa', 'aa', 'aa'),
+(8, 'a', '141@gmail.com', '11', 's', 'd', 'f');
+
 -- --------------------------------------------------------
 
+--
+-- بنية الجدول `users_items`
+--
 
-CREATE TABLE `users_items` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `item_id` int(11) NOT NULL,
-  `status` enum('Added to cart','Confirmed') NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
-
-INSERT INTO `users_items` (`id`, `user_id`, `item_id`, `status`) VALUES
-(7, 3, 3, 'Added to cart'),
-(8, 3, 4, 'Added to cart'),
-(9, 3, 5, 'Added to cart'),
-(10, 3, 11, 'Added to cart'),
-(11, 1, 9, 'Added to cart'),
-(12, 1, 2, 'Added to cart'),
-(13, 1, 8, 'Added to cart'),
-(14, 4, 2, 'Confirmed'),
-(18, 5, 11, 'Added to cart'),
-(20, 5, 5, 'Added to cart');
-
+DROP TABLE IF EXISTS `users_items`;
+CREATE TABLE IF NOT EXISTS `users_items` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `item_id` int NOT NULL,
+  `size` int NOT NULL,
+  `status` enum('Added to cart','Confirmed') NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`,`item_id`),
+  KEY `item_id` (`item_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
 
 --
-ALTER TABLE `items`
-  ADD PRIMARY KEY (`id`);
+-- إرجاع أو استيراد بيانات الجدول `users_items`
+--
 
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `users_items`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`,`item_id`),
-  ADD KEY `item_id` (`item_id`);
+INSERT INTO `users_items` (`id`, `user_id`, `item_id`, `size`, `status`) VALUES
+(7, 3, 3, 0, 'Added to cart'),
+(8, 3, 4, 0, 'Added to cart'),
+(9, 3, 5, 0, 'Added to cart'),
+(10, 3, 11, 0, 'Added to cart'),
+(11, 1, 9, 0, 'Added to cart'),
+(12, 1, 2, 0, 'Added to cart'),
+(13, 1, 8, 0, 'Added to cart'),
+(14, 4, 2, 0, 'Confirmed'),
+(18, 5, 11, 0, 'Added to cart'),
+(20, 5, 5, 0, 'Added to cart'),
+(30, 6, 1, 0, 'Confirmed'),
+(31, 6, 2, 0, 'Confirmed'),
+(32, 6, 3, 0, 'Confirmed'),
+(33, 6, 4, 0, 'Confirmed'),
+(34, 6, 8, 0, 'Confirmed'),
+(35, 6, 7, 0, 'Confirmed'),
+(36, 6, 6, 0, 'Confirmed'),
+(37, 6, 5, 0, 'Confirmed'),
+(38, 6, 9, 0, 'Confirmed'),
+(39, 6, 10, 0, 'Confirmed'),
+(40, 6, 11, 0, 'Confirmed'),
+(41, 6, 12, 0, 'Confirmed'),
+(42, 6, 2, 0, 'Added to cart');
 
 --
-ALTER TABLE `items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+-- قيود الجداول المُلقاة.
+--
 
+--
+-- قيود الجداول `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
-ALTER TABLE `users_items`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
-
-
-
-ALTER TABLE `users_items`
-  ADD CONSTRAINT `users_items_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  ADD CONSTRAINT `users_items_ibfk_2` FOREIGN KEY (`item_id`) REFERENCES `items` (`id`);
+--
+-- قيود الجداول `pick_up`
+--
+ALTER TABLE `pick_up`
+  ADD CONSTRAINT `pick_up_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pick_up_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
